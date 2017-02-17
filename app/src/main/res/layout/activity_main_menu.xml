@@ -8,41 +8,44 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.apsu.bjordan.braymon.MainMenu">
+    tools:context="com.apsu.bjordan.braymon.MainMenu"
+    android:background="@android:color/background_dark"
+    >
 
     <Button
-        android:text="Simon Says"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
         android:layout_marginTop="67dp"
         android:id="@+id/button_game_i"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_retro"
+        android:layout_height="wrap_content" />
 
     <Button
-        android:text="About"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
-        android:id="@+id/button_about"
-        android:layout_below="@+id/button_game_iii"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Player Adds"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
         android:id="@+id/button_game_ii"
         android:layout_below="@+id/button_game_i"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_retro" />
 
     <Button
-        android:text="Choose Color"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="49dp"
         android:id="@+id/button_game_iii"
         android:layout_below="@+id/button_game_ii"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_retro" />
+
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:id="@+id/button_about"
+        android:background="@drawable/button_retro"
+        android:layout_below="@+id/button_game_iii"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
