@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/background_dark">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/button_red_dark_sq"
+            android:id="@+id/imageButton_Red"
+            android:background="@android:color/background_dark"
+            android:scaleType="centerInside"
+            />
+
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/button_green_dark_sq"
+            android:id="@+id/imageButton_Green"
+            android:background="@android:color/background_dark"
+            android:scaleType="centerInside"
+            />
+
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/button_yellow_dark_sq"
+            android:id="@+id/imageButton_Yellow"
+            android:background="@android:color/background_dark"
+            android:scaleType="centerInside"
+            />
+
+        <ImageButton
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/button_blue_dark_sq"
+            android:id="@+id/imageButton_Blue"
+            android:background="@android:color/background_dark"
+            android:scaleType="centerInside"
+            />
+    </LinearLayout>
+</LinearLayout>

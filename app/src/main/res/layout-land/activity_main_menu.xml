@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:text="Simon Says"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="67dp"
+        android:id="@+id/button_game_i" />
+
+    <Button
+        android:text="Player Adds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_game_i"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="117dp"
+        android:id="@+id/button_game_ii" />
+
+    <Button
+        android:text="Choose Color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_game_i"
+        android:layout_alignStart="@+id/button_game_i"
+        android:layout_marginTop="68dp"
+        android:id="@+id/button_game_iii" />
+
+    <Button
+        android:text="About"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_game_iii"
+        android:layout_alignStart="@+id/button_game_ii"
+        android:id="@+id/button_about" />
+</RelativeLayout>
