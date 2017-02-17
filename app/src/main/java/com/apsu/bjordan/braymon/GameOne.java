@@ -2,23 +2,82 @@ package com.apsu.bjordan.braymon;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageButton;
+
+import java.util.ArrayList;
+import java.util.Random;
+
 
 
 public class GameOne extends AppCompatActivity {
+
+    ArrayList<Integer> cpu = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_i);
 
-        }
+        findViewById(R.id.start_button).setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                startTurn();
+            }
+        });
+    }
+
+    private UpdateTask sg;
+
+    private void startTurn() {
+        cpu.add(pickButton());
+        sg = new UpdateTask();
+        sg.execute();
+    }
+
+    class UpdateTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            try {
+                for (int i = 0; i < cpu.size(); i++) {
+                    final int num = cpu.get(i);
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            selectButton(num);
+                        }
+                    });
+
+                Thread.sleep(1000);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    public int pickButton () {
+        Random random = new Random();
+
+        int num = random.nextInt(4) + 1;
+
+        return num;
+    }
 
     public void selectButton (int i) {
         switch (i) {
+            case 0:
+                break;
             case 1: lightBlue();
                 break;
             case 2: lightRed();
