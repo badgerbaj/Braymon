@@ -8,7 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.apsu.bjordan.braymon.MainMenu">
+    tools:context="com.apsu.bjordan.braymon.MainMenu"
+    android:background="@android:color/background_dark"
+    >
 
     <Button
         android:text="Simon Says"
@@ -45,4 +47,5 @@
         android:id="@+id/button_game_iii"
         android:layout_below="@+id/button_game_ii"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
