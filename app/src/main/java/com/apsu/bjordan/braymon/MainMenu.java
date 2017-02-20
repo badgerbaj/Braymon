@@ -121,8 +121,8 @@ public class MainMenu extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
-        td.startTransition(500);
-        td.reverseTransition(500);
+        td.startTransition(1000);
+        td.reverseTransition(1000);
     }
 
     public void lightGreen () {
@@ -135,8 +135,8 @@ public class MainMenu extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
-        td.startTransition(500);
-        td.reverseTransition(500);
+        td.startTransition(1000);
+        td.reverseTransition(1000);
     }
 
     public void lightYellow () {
@@ -149,8 +149,8 @@ public class MainMenu extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
-        td.startTransition(500);
-        td.reverseTransition(500);
+        td.startTransition(1000);
+        td.reverseTransition(1000);
     }
 
 }

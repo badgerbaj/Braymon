@@ -27,7 +27,7 @@
                 app:srcCompat="@drawable/button_red_dark_rt"
                 android:id="@+id/imageButton_Red"
                 android:background="@android:color/background_dark"
-                android:scaleType="matrix"
+                android:scaleType="fitXY"
                 />
 
             <ImageButton
@@ -37,7 +37,7 @@
                 app:srcCompat="@drawable/button_green_dark_rt"
                 android:id="@+id/imageButton_Green"
                 android:background="@android:color/background_dark"
-                android:scaleType="matrix"
+                android:scaleType="fitXY"
                 />
         </LinearLayout>
 
@@ -52,7 +52,7 @@
                 app:srcCompat="@drawable/button_yellow_dark_rt"
                 android:id="@+id/imageButton_Yellow"
                 android:background="@android:color/background_dark"
-                android:scaleType="matrix"
+                android:scaleType="fitXY"
                 />
 
             <ImageButton
@@ -62,7 +62,7 @@
                 app:srcCompat="@drawable/button_blue_dark_rt"
                 android:id="@+id/imageButton_Blue"
                 android:background="@android:color/background_dark"
-                android:scaleType="matrix"
+                android:scaleType="fitXY"
                 />
         </LinearLayout>
     </LinearLayout>
@@ -72,7 +72,10 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/braymon_logo"
         android:id="@+id/imageView"
-        android:layout_marginBottom="0dp" />
+        android:layout_marginBottom="0dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
 
     <Button
         android:layout_width="48dp"
