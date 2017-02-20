@@ -95,8 +95,8 @@ public class GameOne extends AppCompatActivity {
         ImageButton b = (ImageButton) findViewById(R.id.imageButton_Blue);
 
         TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-                getResources().getDrawable(R.drawable.button_blue_dark_sq),
-                getResources().getDrawable(R.drawable.button_blue_bright_sq)
+                getResources().getDrawable(R.drawable.button_blue_dark_rt),
+                getResources().getDrawable(R.drawable.button_blue_bright_rt)
         });
 
         b.setImageDrawable(td);
@@ -109,8 +109,8 @@ public class GameOne extends AppCompatActivity {
         ImageButton b = (ImageButton) findViewById(R.id.imageButton_Red);
 
         TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-                getResources().getDrawable(R.drawable.button_red_dark_sq),
-                getResources().getDrawable(R.drawable.button_red_bright_sq)
+                getResources().getDrawable(R.drawable.button_red_dark_rt),
+                getResources().getDrawable(R.drawable.button_red_bright_rt)
         });
 
         b.setImageDrawable(td);
@@ -123,8 +123,8 @@ public class GameOne extends AppCompatActivity {
         ImageButton b = (ImageButton) findViewById(R.id.imageButton_Green);
 
         TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-                getResources().getDrawable(R.drawable.button_green_dark_sq),
-                getResources().getDrawable(R.drawable.button_green_bright_sq)
+                getResources().getDrawable(R.drawable.button_green_dark_rt),
+                getResources().getDrawable(R.drawable.button_green_bright_rt)
         });
 
         b.setImageDrawable(td);
@@ -137,8 +137,8 @@ public class GameOne extends AppCompatActivity {
         ImageButton b = (ImageButton) findViewById(R.id.imageButton_Yellow);
 
         TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-                getResources().getDrawable(R.drawable.button_yellow_dark_sq),
-                getResources().getDrawable(R.drawable.button_yellow_bright_sq)
+                getResources().getDrawable(R.drawable.button_yellow_dark_rt),
+                getResources().getDrawable(R.drawable.button_yellow_bright_rt)
         });
 
         b.setImageDrawable(td);
