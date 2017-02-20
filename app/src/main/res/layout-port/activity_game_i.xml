@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/button_red_dark_rt"
         android:id="@+id/imageButton_Red"
         android:background="@android:color/background_dark"
-        android:scaleType="fitCenter"
+        android:scaleType="matrix"
         />
 
     <ImageButton
@@ -26,7 +26,7 @@
         app:srcCompat="@drawable/button_green_dark_rt"
         android:id="@+id/imageButton_Green"
         android:background="@android:color/background_dark"
-        android:scaleType="fitCenter"
+        android:scaleType="matrix"
         />
     </LinearLayout>
 
@@ -41,7 +41,7 @@
         app:srcCompat="@drawable/button_yellow_dark_rt"
         android:id="@+id/imageButton_Yellow"
         android:background="@android:color/background_dark"
-        android:scaleType="fitCenter"
+        android:scaleType="matrix"
         />
 
     <ImageButton
@@ -51,7 +51,7 @@
         app:srcCompat="@drawable/button_blue_dark_rt"
         android:id="@+id/imageButton_Blue"
         android:background="@android:color/background_dark"
-        android:scaleType="fitCenter"
+        android:scaleType="matrix"
         />
     </LinearLayout>
 
