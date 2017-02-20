@@ -1,40 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main_menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apsu.bjordan.braymon.MainMenu"
+    android:background="@android:color/background_dark"
+    >
 
-    <Button
-        android:text="Simon Says"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/background_dark"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <ImageButton
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/button_red_dark_rt"
+                android:id="@+id/imageButton_Red"
+                android:background="@android:color/background_dark"
+                android:scaleType="fitCenter"
+                />
+
+            <ImageButton
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/button_green_dark_rt"
+                android:id="@+id/imageButton_Green"
+                android:background="@android:color/background_dark"
+                android:scaleType="fitCenter"
+                />
+
+            <ImageButton
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/button_yellow_dark_rt"
+                android:id="@+id/imageButton_Yellow"
+                android:background="@android:color/background_dark"
+                android:scaleType="fitCenter"
+                />
+
+            <ImageButton
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/button_blue_dark_rt"
+                android:id="@+id/imageButton_Blue"
+                android:background="@android:color/background_dark"
+                android:scaleType="fitCenter"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="67dp"
-        android:id="@+id/button_game_i" />
+        app:srcCompat="@drawable/braymon_logo"
+        android:id="@+id/imageView"
+        android:layout_marginBottom="0dp"
+        android:visibility="invisible"/>
 
     <Button
-        android:text="Player Adds"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/button_game_i"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="117dp"
-        android:id="@+id/button_game_ii" />
+        android:id="@+id/button_game_ii"
+        android:background="@drawable/button_retro"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:visibility="invisible"/>
 
     <Button
-        android:text="Choose Color"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
+        android:id="@+id/button_game_i"
+        android:background="@drawable/button_retro"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_game_i"
-        android:layout_alignStart="@+id/button_game_i"
-        android:layout_marginTop="68dp"
-        android:id="@+id/button_game_iii" />
+        android:layout_marginRight="30dp"
+        android:layout_alignBaseline="@+id/button_game_ii"
+        android:layout_alignBottom="@+id/button_game_ii"
+        android:layout_toStartOf="@+id/button_game_ii"
+        android:visibility="invisible"
+        />
 
     <Button
-        android:text="About"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/button_game_iii"
+        android:id="@+id/button_game_iii"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/button_retro"
+        android:layout_alignBaseline="@+id/button_game_ii"
+        android:layout_alignBottom="@+id/button_game_ii"
+        android:layout_toEndOf="@+id/button_game_ii"
+        android:visibility="invisible"
+        />
+
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_about"
+        android:background="@drawable/button_retro"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/button_game_ii"
         android:layout_alignStart="@+id/button_game_ii"
-        android:id="@+id/button_about" />
+        android:visibility="invisible"
+        android:enabled="false" />
+
 </RelativeLayout>
