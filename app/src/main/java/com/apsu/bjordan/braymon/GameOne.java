@@ -3,6 +3,9 @@ package com.apsu.bjordan.braymon;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,13 @@ public class GameOne extends AppCompatActivity {
 
     ArrayList<Integer> cpu = new ArrayList<Integer>();
     ArrayList<Integer> player = new ArrayList<Integer>();
+
+    MediaPlayer mp_blue;
+    MediaPlayer mp_green;
+    MediaPlayer mp_red;
+    MediaPlayer mp_yellow;
+    MediaPlayer mp_fail;
+
     private UpdateTask sg;
     int it = 0;
 
@@ -26,6 +36,12 @@ public class GameOne extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_i);
+
+        mp_blue = MediaPlayer.create(getApplicationContext(), R.raw.blue_note);
+        mp_green = MediaPlayer.create(getApplicationContext(), R.raw.green_note);
+        mp_red = MediaPlayer.create(getApplicationContext(), R.raw.red_note);
+        mp_yellow = MediaPlayer.create(getApplicationContext(), R.raw.yellow_note);
+        mp_fail = MediaPlayer.create(getApplicationContext(), R.raw.fail_note);
 
         Button start = (Button) findViewById(R.id.start_button);
         start.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +179,7 @@ public class GameOne extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
+        mp_blue.start();
         td.startTransition(1000);
         td.reverseTransition(1000);
     }
@@ -177,6 +194,7 @@ public class GameOne extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
+        mp_red.start();
         td.startTransition(1000);
         td.reverseTransition(1000);
     }
@@ -191,6 +209,7 @@ public class GameOne extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
+        mp_green.start();
         td.startTransition(1000);
         td.reverseTransition(1000);
     }
@@ -205,6 +224,7 @@ public class GameOne extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
+        mp_yellow.start();
         td.startTransition(1000);
         td.reverseTransition(1000);
     }
