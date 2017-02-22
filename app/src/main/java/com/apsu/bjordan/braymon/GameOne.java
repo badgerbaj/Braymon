@@ -106,11 +106,14 @@ public class GameOne extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
+        int timer = 1000;
+        int time = cpu.size()/4 + 1;
+        timer = timer/time;
 
             try {
+                Thread.sleep(1000);
                 for (int i = 0; i < cpu.size(); i++) {
-                    Thread.sleep(1000);
+                    Thread.sleep(timer);
                     final int num = cpu.get(i);
                     runOnUiThread(new Runnable() {
 
@@ -163,8 +166,8 @@ public class GameOne extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
-        td.startTransition(1000);
-        td.reverseTransition(1000);
+        td.startTransition(500);
+        td.reverseTransition(500);
     }
 
     public void lightRed () {
@@ -177,8 +180,8 @@ public class GameOne extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
-        td.startTransition(1000);
-        td.reverseTransition(1000);
+        td.startTransition(500);
+        td.reverseTransition(500);
     }
 
     public void lightGreen () {
@@ -191,8 +194,8 @@ public class GameOne extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
-        td.startTransition(1000);
-        td.reverseTransition(1000);
+        td.startTransition(500);
+        td.reverseTransition(500);
     }
 
     public void lightYellow () {
@@ -205,8 +208,8 @@ public class GameOne extends AppCompatActivity {
 
         b.setImageDrawable(td);
 
-        td.startTransition(1000);
-        td.reverseTransition(1000);
+        td.startTransition(500);
+        td.reverseTransition(500);
     }
 
 
