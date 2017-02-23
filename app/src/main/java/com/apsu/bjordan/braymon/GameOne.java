@@ -3,9 +3,7 @@ package com.apsu.bjordan.braymon;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.media.AudioAttributes;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -27,10 +24,7 @@ public class GameOne extends AppCompatActivity {
     private SoundPool soundPool;
     private Set<Integer> soundsLoaded;
 
-    int blue_sound;
-    int red_sound;
-    int green_sound;
-    int yellow_sound;
+    int blue_sound, red_sound, green_sound, yellow_sound;
 
     ArrayList<Integer> cpu = new ArrayList<Integer>();
     ArrayList<Integer> player = new ArrayList<Integer>();
@@ -43,23 +37,35 @@ public class GameOne extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_i);
 
-        Button start = (Button) findViewById(R.id.start_button);
-        start.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                startTurn();
-            }
-        });
+            Button start = (Button) findViewById(R.id.start_button);
+            start.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    cpuStatus();
+                    if (sg == null) {
+                        startTurn();
+                    }
+
+                }
+            });
+
+
+
 
         ImageButton blue = (ImageButton) findViewById(R.id.imageButton_Blue);
         blue.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                selectButton(1);
-                player.add(1);
-                checkStatus();
+                cpuStatus();
+                if (sg == null) {
+                    selectButton(1);
+                    player.add(1);
+                    checkStatus();
+                }
+
             }
         });
 
@@ -68,9 +74,13 @@ public class GameOne extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                selectButton(2);
-                player.add(2);
-                checkStatus();
+                cpuStatus();
+                if (sg == null) {
+                    selectButton(2);
+                    player.add(2);
+                    checkStatus();
+                }
+
             }
         });
 
@@ -79,9 +89,12 @@ public class GameOne extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                selectButton(3);
-                player.add(3);
-                checkStatus();
+                cpuStatus();
+                if (sg == null) {
+                    selectButton(3);
+                    player.add(3);
+                    checkStatus();
+                }
             }
         });
 
@@ -90,9 +103,12 @@ public class GameOne extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                selectButton(4);
-                player.add(4);
-                checkStatus();
+                cpuStatus();
+                if (sg == null) {
+                    selectButton(4);
+                    player.add(4);
+                    checkStatus();
+                }
             }
         });
 
@@ -130,7 +146,12 @@ public class GameOne extends AppCompatActivity {
 
 
 
+    public void cpuStatus () {
+        if (sg != null && sg.getStatus() == AsyncTask.Status.FINISHED) {
+            sg = null;
+        }
 
+    }
 
 
     public void checkStatus () {
