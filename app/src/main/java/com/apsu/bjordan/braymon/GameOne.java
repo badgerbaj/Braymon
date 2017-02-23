@@ -30,6 +30,7 @@ public class GameOne extends AppCompatActivity {
     ArrayList<Integer> player = new ArrayList<Integer>();
 
     private UpdateTask sg;
+    Boolean turn = false;
     int it = 0;
 
     @Override
@@ -60,7 +61,7 @@ public class GameOne extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cpuStatus();
-                if (sg == null) {
+                if (turn == true) {
                     selectButton(1);
                     player.add(1);
                     checkStatus();
@@ -75,7 +76,7 @@ public class GameOne extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cpuStatus();
-                if (sg == null) {
+                if (turn == true) {
                     selectButton(2);
                     player.add(2);
                     checkStatus();
@@ -90,7 +91,7 @@ public class GameOne extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cpuStatus();
-                if (sg == null) {
+                if (turn == true) {
                     selectButton(3);
                     player.add(3);
                     checkStatus();
@@ -104,7 +105,7 @@ public class GameOne extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cpuStatus();
-                if (sg == null) {
+                if (turn == true) {
                     selectButton(4);
                     player.add(4);
                     checkStatus();
@@ -150,8 +151,8 @@ public class GameOne extends AppCompatActivity {
     public void cpuStatus () {
         if (sg != null && sg.getStatus() == AsyncTask.Status.FINISHED) {
             sg = null;
+            turn = true;
         }
-
     }
 
 
@@ -171,6 +172,7 @@ public class GameOne extends AppCompatActivity {
     }
 
     private void startTurn() {
+        turn = false;
         cpu.add(pickButton());
         sg = new UpdateTask();
         sg.execute();
