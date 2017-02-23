@@ -158,10 +158,22 @@ public class GameOne extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-        int timer = 1000;
-        int time = cpu.size()/4 + 1;
-        timer = timer/time;
-
+            int timer = 1000;
+            int round = cpu.size()/4;
+            switch (round) {
+                case 0: timer = 1000;
+                    break;
+                case 1: timer = 500;
+                    break;
+                case 2: timer = 400;
+                    break;
+                case 3: timer = 300;
+                    break;
+                case 4: timer = 200;
+                    break;
+                default: timer = 150;
+                    break;
+            }
             try {
                 Thread.sleep(1000);
                 for (int i = 0; i < cpu.size(); i++) {
