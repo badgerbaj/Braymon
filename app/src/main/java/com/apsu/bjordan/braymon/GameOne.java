@@ -24,7 +24,7 @@ public class GameOne extends AppCompatActivity {
     private SoundPool soundPool;
     private Set<Integer> soundsLoaded;
 
-    int blue_sound, red_sound, green_sound, yellow_sound;
+    int blue_sound, red_sound, green_sound, yellow_sound, end_sound;
 
     ArrayList<Integer> cpu = new ArrayList<Integer>();
     ArrayList<Integer> player = new ArrayList<Integer>();
@@ -142,6 +142,7 @@ public class GameOne extends AppCompatActivity {
             red_sound = soundPool.load(this, R.raw.red_note, 1);
             green_sound = soundPool.load(this, R.raw.green_note, 1);
             yellow_sound = soundPool.load(this, R.raw.yellow_note, 1);
+            end_sound = soundPool.load(this, R.raw.fail_note, 1);
         }
 
 
@@ -159,9 +160,9 @@ public class GameOne extends AppCompatActivity {
             it++;
         }
         else {
-            Intent i = new Intent(getApplicationContext(), MainMenu.class);
-            startActivity(i);
+            endGame();
         }
+
         if (it == cpu.size()) {
             it = 0;
             player.clear();
@@ -174,6 +175,17 @@ public class GameOne extends AppCompatActivity {
         sg = new UpdateTask();
         sg.execute();
     }
+
+    public void endGame () {
+        if (soundsLoaded.contains(end_sound)) {
+            soundPool.play(end_sound, 1.0f, 1.0f, 0, 0, 1.0f);
+        }
+        Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+        startActivity(intent);
+        }
+
+
+
 
     class UpdateTask extends AsyncTask<Void, Void, Void> {
 
