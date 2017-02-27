@@ -14,12 +14,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -38,6 +36,7 @@ public class GameOne extends AppCompatActivity {
     private static final String CPU_KEY = "CPU";
     private static final String PLAYER_KEY = "PLAYER";
     private static final String TURN_KEY = "TURN";
+    private static final String SCORE_KEY = "0";
 
     int blue_sound, red_sound, green_sound, yellow_sound, end_sound, it;
     private UpdateTask sg;
@@ -45,6 +44,7 @@ public class GameOne extends AppCompatActivity {
     ArrayList<Integer> cpu;
     ArrayList<Integer> player;
     Boolean turn;
+
     int score = 0;
     int highscore = 0;
 
@@ -52,22 +52,6 @@ public class GameOne extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
-        if (savedInstanceState == null) {  // no rotation - total new start
-            turn = false;
-            it = 0;
-            cpu = new ArrayList<Integer>();
-            player = new ArrayList<Integer>();
-        }
-        else { // possibly a rotation - may have data
-            it = savedInstanceState.getInt(IT_KEY, 0);
-            cpu = savedInstanceState.getIntegerArrayList(CPU_KEY);
-            player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
-            //turn = savedInstanceState.getBoolean(TURN_KEY);
-            turn = true;
-        }
-
-
 
         // try-catch used to open data file
         try {
@@ -82,11 +66,6 @@ public class GameOne extends AppCompatActivity {
 
         TextView highScoreText = (TextView)findViewById(R.id.textView_HighScore);
         highScoreText.setText(Integer.toString(highscore));
-
-        cpuStatus();
-        if (sg == null) {
-            startTurn();
-        }
 
         ImageButton blue = (ImageButton) findViewById(R.id.imageButton_Blue);
         blue.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +124,25 @@ public class GameOne extends AppCompatActivity {
         });
 
         soundsLoaded = new HashSet<Integer>();
+
+        if (savedInstanceState == null) {  // no rotation - total new start
+            turn = false;
+            it = 0;
+            cpu = new ArrayList<Integer>();
+            player = new ArrayList<Integer>();
+            startTurn();
+        }
+        else { // possibly a rotation - may have data
+            it = savedInstanceState.getInt(IT_KEY, 0);
+            cpu = savedInstanceState.getIntegerArrayList(CPU_KEY);
+            player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
+            score = savedInstanceState.getInt(SCORE_KEY);
+            TextView scoreText = (TextView)findViewById(R.id.textView_CurrentScore);
+            scoreText.setText(Integer.toString(score));
+            //turn = savedInstanceState.getBoolean(TURN_KEY);
+            turn = true;
+        }
+
     }
 
     @Override
@@ -155,6 +153,7 @@ public class GameOne extends AppCompatActivity {
         outState.putIntegerArrayList(CPU_KEY, cpu);
         outState.putIntegerArrayList(PLAYER_KEY, player);
         outState.putBoolean(TURN_KEY, turn);
+        outState.putInt(SCORE_KEY, score);
     }
 
     @Override
