@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -425,5 +426,19 @@ public class GameOne extends AppCompatActivity {
         if (soundsLoaded.contains(soundId)) {
             soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 2.0f);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (sg.getStatus() == AsyncTask.Status.RUNNING) {
+                sg.cancel(true);
+            }
+            Intent iActivity_Main = new Intent(getApplicationContext(), MainMenu.class);
+            startActivity(iActivity_Main);
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
