@@ -35,7 +35,6 @@ public class GameOne extends AppCompatActivity {
     private static final String IT_KEY = "IT";
     private static final String CPU_KEY = "CPU";
     private static final String PLAYER_KEY = "PLAYER";
-    private static final String TURN_KEY = "TURN";
     private static final String SCORE_KEY = "0";
 
     int blue_sound, red_sound, green_sound, yellow_sound, end_sound, it;
@@ -43,122 +42,126 @@ public class GameOne extends AppCompatActivity {
 
     ArrayList<Integer> cpu;
     ArrayList<Integer> player;
-    Boolean turn;
+    Boolean turn = false;
 
     int score = 0;
-    int highscore = 0;
+    int highScore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        // try-catch used to open data file
-        try {
-            FileInputStream fis = openFileInput("gameI.txt");
-            Scanner scanner = new Scanner(fis);
-            String scoreIn = scanner.nextLine();
-            highscore = Integer.parseInt(scoreIn);
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // opens game I high score file
+        readHighScore();
 
+        // displays game I high score file
         TextView highScoreText = (TextView)findViewById(R.id.textView_HighScore);
-        highScoreText.setText(Integer.toString(highscore));
+        highScoreText.setText(Integer.toString(highScore));
 
+        // blue button on game screen
         ImageButton blue = (ImageButton) findViewById(R.id.imageButton_Blue);
         blue.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                // checks status of game so that user cannot press button until their turn
                 cpuStatus();
                 if (turn == true) {
-                    selectButton(1);
-                    player.add(1);
-                    checkStatus();
+                    selectButton(1); // lights and sound effects for button 1
+                    player.add(1); // adds selected button to player array
+                    checkStatus(); // checks if correct button was pressed
                 }
             }
         });
 
+        // red button on game screen
         ImageButton red = (ImageButton) findViewById(R.id.imageButton_Red);
         red.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                // checks status of game so that user cannot press button until their turn
                 cpuStatus();
                 if (turn == true) {
-                    selectButton(2);
-                    player.add(2);
-                    checkStatus();
+                    selectButton(2); // lights and sound effects for button 2
+                    player.add(2); // adds selected button to player array
+                    checkStatus(); // checks if correct button was pressed
                 }
             }
         });
 
+        // green button on game screen
         ImageButton green = (ImageButton) findViewById(R.id.imageButton_Green);
         green.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                // checks status of game so that user cannot press button until their turn
                 cpuStatus();
                 if (turn == true) {
-                    selectButton(3);
-                    player.add(3);
-                    checkStatus();
+                    selectButton(3); // lights and sound effects for button 3
+                    player.add(3); // adds selected button to player array
+                    checkStatus(); // checks if correct button was pressed
                 }
             }
         });
 
+        // yellow button on game screen
         ImageButton yellow = (ImageButton) findViewById(R.id.imageButton_Yellow);
         yellow.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                // checks status of game so that user cannot press button until their turn
                 cpuStatus();
                 if (turn == true) {
-                    selectButton(4);
-                    player.add(4);
-                    checkStatus();
+                    selectButton(4); // lights and sound effects for button 4
+                    player.add(4); // adds selected button to player array
+                    checkStatus(); // checks if correct button was pressed
                 }
             }
         });
 
+        // creates sound effects set
         soundsLoaded = new HashSet<Integer>();
 
-        if (savedInstanceState == null) {  // no rotation - total new start
-            turn = false;
-            it = 0;
-            cpu = new ArrayList<Integer>();
-            player = new ArrayList<Integer>();
+        // no screen rotation - total new start
+        if (savedInstanceState == null) {
+            turn = false; // turn set to false to lock buttons
+            it = 0; // iterator to go through arrays
+            cpu = new ArrayList<Integer>(); // creates array list for cpu
+            player = new ArrayList<Integer>(); // creates array list for player
             startTurn();
         }
         else { // possibly a rotation - may have data
-            turn = false;
+            turn = false; // turn set to false to lock buttons
+
+            // if the screen is rotated during the computer's turn, cancels the cpu's turn and restarts
             if (sg.getStatus() == AsyncTask.Status.RUNNING) {
                 sg.cancel(true);
             }
             sg = new UpdateTask();
             sg.execute();
+
+            // sets correct variables after screen rotation
             it = savedInstanceState.getInt(IT_KEY, 0);
             cpu = savedInstanceState.getIntegerArrayList(CPU_KEY);
             player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
             score = savedInstanceState.getInt(SCORE_KEY);
             TextView scoreText = (TextView)findViewById(R.id.textView_CurrentScore);
             scoreText.setText(Integer.toString(score));
-            //turn = savedInstanceState.getBoolean(TURN_KEY);
-            turn = true;
-        }
-
+         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        // outputs values on screen rotation
         outState.putInt(IT_KEY, it);
         outState.putIntegerArrayList(CPU_KEY, cpu);
         outState.putIntegerArrayList(PLAYER_KEY, player);
-        outState.putBoolean(TURN_KEY, turn);
         outState.putInt(SCORE_KEY, score);
     }
 
@@ -166,13 +169,16 @@ public class GameOne extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        // soundpool for SDK greater than or equal to 21
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             soundPool = new SoundPool.Builder().setMaxStreams(10).build();
         }
+        // soundpool for SDK less than 21
         else {
             soundPool = new SoundPool(10,AudioManager.STREAM_MUSIC, 1);
         }
 
+        // loads sound files
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
@@ -183,7 +189,6 @@ public class GameOne extends AppCompatActivity {
                 }
             }
         });
-
         blue_sound = soundPool.load(this, R.raw.blue_note, 1);
         red_sound = soundPool.load(this, R.raw.red_note, 1);
         green_sound = soundPool.load(this, R.raw.green_note, 1);
@@ -191,6 +196,7 @@ public class GameOne extends AppCompatActivity {
         end_sound = soundPool.load(this, R.raw.fail_note, 1);
     }
 
+    // checks if cpu has completed turn
     public void cpuStatus () {
         if (sg != null && sg.getStatus() == AsyncTask.Status.FINISHED) {
             sg = null;
@@ -198,6 +204,7 @@ public class GameOne extends AppCompatActivity {
         }
     }
 
+    // checks if button pressed is correct
     public void checkStatus () {
         if (player.get(it) == cpu.get(it)) {
             it++;
@@ -206,13 +213,14 @@ public class GameOne extends AppCompatActivity {
             endGame();
         }
 
+        // if the player is correct on full turn, increases score and starts a new turn
         if (it == cpu.size()) {
             it = 0;
             player.clear();
             score++;
             TextView scoreText = (TextView)findViewById(R.id.textView_CurrentScore);
             scoreText.setText(Integer.toString(score));
-            if (score > highscore) {
+            if (score > highScore) {
                 TextView highScoreText = (TextView)findViewById(R.id.textView_HighScore);
                 highScoreText.setText(Integer.toString(score));
             }
@@ -220,6 +228,8 @@ public class GameOne extends AppCompatActivity {
         }
     }
 
+    // starts new cpu turn
+    // assigns new color to cpu array and starts task
     private void startTurn() {
         turn = false;
         cpu.add(pickButton());
@@ -227,6 +237,21 @@ public class GameOne extends AppCompatActivity {
         sg.execute();
     }
 
+    // if incorrect button is pressed
+    // plays end game sound and returns to main menu
+    public void endGame () {
+        if (soundsLoaded.contains(end_sound)) {
+            soundPool.play(end_sound, 1.0f, 1.0f, 0, 0, 1.0f);
+        }
+        // if player has the high score, writes new high score to file
+        if (score > highScore) {
+            writeHighScore();
+        }
+        Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+        startActivity(intent);
+    }
+
+    // writes high score to file
     private void writeHighScore() {
         try {
             FileOutputStream fos = openFileOutput("gameI.txt", Context.MODE_PRIVATE);
@@ -239,25 +264,29 @@ public class GameOne extends AppCompatActivity {
             // Logs an error message, prints the StackTrace and shows the user an error message if the data file cannot be found
             Log.e("WRITE_ERR", "Cannot dave data: " + e.getMessage());
             e.printStackTrace();
-
         }
     }
 
-    public void endGame () {
-        if (soundsLoaded.contains(end_sound)) {
-            soundPool.play(end_sound, 1.0f, 1.0f, 0, 0, 1.0f);
+    // reads high score from file
+    private void readHighScore() {
+        try {
+            FileInputStream fis = openFileInput("gameI.txt");
+            Scanner scanner = new Scanner(fis);
+            String scoreIn = scanner.nextLine();
+            highScore = Integer.parseInt(scoreIn);
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        if (score > highscore) {
-            writeHighScore();
-        }
-        Intent intent = new Intent(getApplicationContext(), MainMenu.class);
-        startActivity(intent);
     }
 
+    // AsyncTask used for cpu turn
     class UpdateTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            // sets time between cpu buttons
+            // as rounds increase, the speed increases
             int timer = 1000;
             int round = cpu.size()/4;
             switch (round) {
@@ -274,6 +303,7 @@ public class GameOne extends AppCompatActivity {
                 default: timer = 150;
                     break;
             }
+            // sleeps for one second then cycles through cpu array by calling each button
             try {
                 Thread.sleep(1000);
                 for (int i = 0; i < cpu.size(); i++) {
@@ -295,6 +325,7 @@ public class GameOne extends AppCompatActivity {
         }
     }
 
+    // picks a random number between 1 and 4 to add to the cpu array
     public int pickButton () {
         Random random = new Random();
 
@@ -303,6 +334,8 @@ public class GameOne extends AppCompatActivity {
         return num;
     }
 
+    // switch used to light button and play sound for each button
+    // value passed from cpu array and player button press
     public void selectButton (int i) {
         switch (i) {
             case 0:
@@ -320,6 +353,7 @@ public class GameOne extends AppCompatActivity {
         }
     }
 
+    // lights blue button and plays sound
     public void lightBlue () {
         ImageButton b = (ImageButton) findViewById(R.id.imageButton_Blue);
 
@@ -336,6 +370,7 @@ public class GameOne extends AppCompatActivity {
 
     }
 
+    // lights red button and plays sound
     public void lightRed () {
         ImageButton b = (ImageButton) findViewById(R.id.imageButton_Red);
 
@@ -352,6 +387,7 @@ public class GameOne extends AppCompatActivity {
         td.reverseTransition(500);
      }
 
+    // lights green button and plays sound
     public void lightGreen () {
         ImageButton b = (ImageButton) findViewById(R.id.imageButton_Green);
 
@@ -367,6 +403,7 @@ public class GameOne extends AppCompatActivity {
         td.reverseTransition(500);
     }
 
+    // lights yellow button and plays sound
     public void lightYellow () {
         ImageButton b = (ImageButton) findViewById(R.id.imageButton_Yellow);
 
@@ -383,6 +420,7 @@ public class GameOne extends AppCompatActivity {
         td.reverseTransition(500);
     }
 
+    // plays sound depending on button selected
     private void playSound(int soundId) {
         if (soundsLoaded.contains(soundId)) {
             soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 2.0f);
