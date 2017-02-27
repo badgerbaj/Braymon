@@ -53,7 +53,7 @@ public class GameOne extends AppCompatActivity {
             player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
             //turn = savedInstanceState.getBoolean(TURN_KEY);
             turn = true;
-            
+
         }
 
         Button start = (Button) findViewById(R.id.start_button);
