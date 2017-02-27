@@ -3,9 +3,7 @@ package com.apsu.bjordan.braymon;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.media.AudioAttributes;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -27,15 +24,13 @@ public class GameOne extends AppCompatActivity {
     private SoundPool soundPool;
     private Set<Integer> soundsLoaded;
 
-    int blue_sound;
-    int red_sound;
-    int green_sound;
-    int yellow_sound;
+    int blue_sound, red_sound, green_sound, yellow_sound, end_sound;
 
     ArrayList<Integer> cpu = new ArrayList<Integer>();
     ArrayList<Integer> player = new ArrayList<Integer>();
 
     private UpdateTask sg;
+    Boolean turn = false;
     int it = 0;
 
     @Override
@@ -43,23 +38,35 @@ public class GameOne extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_i);
 
-        Button start = (Button) findViewById(R.id.start_button);
-        start.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                startTurn();
-            }
-        });
+            Button start = (Button) findViewById(R.id.start_button);
+            start.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    cpuStatus();
+                    if (sg == null) {
+                        startTurn();
+                    }
+
+                }
+            });
+
+
+
 
         ImageButton blue = (ImageButton) findViewById(R.id.imageButton_Blue);
         blue.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                selectButton(1);
-                player.add(1);
-                checkStatus();
+                cpuStatus();
+                if (turn == true) {
+                    selectButton(1);
+                    player.add(1);
+                    checkStatus();
+                }
+
             }
         });
 
@@ -68,9 +75,13 @@ public class GameOne extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                selectButton(2);
-                player.add(2);
-                checkStatus();
+                cpuStatus();
+                if (turn == true) {
+                    selectButton(2);
+                    player.add(2);
+                    checkStatus();
+                }
+
             }
         });
 
@@ -79,9 +90,12 @@ public class GameOne extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                selectButton(3);
-                player.add(3);
-                checkStatus();
+                cpuStatus();
+                if (turn == true) {
+                    selectButton(3);
+                    player.add(3);
+                    checkStatus();
+                }
             }
         });
 
@@ -90,9 +104,12 @@ public class GameOne extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                selectButton(4);
-                player.add(4);
-                checkStatus();
+                cpuStatus();
+                if (turn == true) {
+                    selectButton(4);
+                    player.add(4);
+                    checkStatus();
+                }
             }
         });
 
@@ -126,11 +143,17 @@ public class GameOne extends AppCompatActivity {
             red_sound = soundPool.load(this, R.raw.red_note, 1);
             green_sound = soundPool.load(this, R.raw.green_note, 1);
             yellow_sound = soundPool.load(this, R.raw.yellow_note, 1);
+            end_sound = soundPool.load(this, R.raw.fail_note, 1);
         }
 
 
 
-
+    public void cpuStatus () {
+        if (sg != null && sg.getStatus() == AsyncTask.Status.FINISHED) {
+            sg = null;
+            turn = true;
+        }
+    }
 
 
     public void checkStatus () {
@@ -138,9 +161,9 @@ public class GameOne extends AppCompatActivity {
             it++;
         }
         else {
-            Intent i = new Intent(getApplicationContext(), MainMenu.class);
-            startActivity(i);
+            endGame();
         }
+
         if (it == cpu.size()) {
             it = 0;
             player.clear();
@@ -149,19 +172,43 @@ public class GameOne extends AppCompatActivity {
     }
 
     private void startTurn() {
+        turn = false;
         cpu.add(pickButton());
         sg = new UpdateTask();
         sg.execute();
     }
 
+    public void endGame () {
+        if (soundsLoaded.contains(end_sound)) {
+            soundPool.play(end_sound, 1.0f, 1.0f, 0, 0, 1.0f);
+        }
+        Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+        startActivity(intent);
+        }
+
+
+
+
     class UpdateTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-        int timer = 1000;
-        int time = cpu.size()/4 + 1;
-        timer = timer/time;
-
+            int timer = 1000;
+            int round = cpu.size()/4;
+            switch (round) {
+                case 0: timer = 1000;
+                    break;
+                case 1: timer = 500;
+                    break;
+                case 2: timer = 400;
+                    break;
+                case 3: timer = 300;
+                    break;
+                case 4: timer = 200;
+                    break;
+                default: timer = 150;
+                    break;
+            }
             try {
                 Thread.sleep(1000);
                 for (int i = 0; i < cpu.size(); i++) {
