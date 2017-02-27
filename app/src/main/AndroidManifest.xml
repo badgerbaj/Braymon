@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameOne" android:noHistory="true"/>
+        <activity android:name=".GameTwo" android:noHistory="true"/>
     </application>
 
 </manifest>
