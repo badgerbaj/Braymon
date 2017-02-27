@@ -1,5 +1,6 @@
 package com.apsu.bjordan.braymon;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -11,11 +12,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 
 
@@ -35,11 +45,13 @@ public class GameOne extends AppCompatActivity {
     ArrayList<Integer> cpu;
     ArrayList<Integer> player;
     Boolean turn;
+    int score = 0;
+    int highscore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_i);
+        setContentView(R.layout.activity_main_menu);
 
         if (savedInstanceState == null) {  // no rotation - total new start
             turn = false;
@@ -53,20 +65,28 @@ public class GameOne extends AppCompatActivity {
             player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
             //turn = savedInstanceState.getBoolean(TURN_KEY);
             turn = true;
-
         }
 
-        Button start = (Button) findViewById(R.id.start_button);
-        start.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                cpuStatus();
-                if (sg == null) {
-                    startTurn();
-                }
-            }
-        });
+
+        // try-catch used to open data file
+        try {
+            FileInputStream fis = openFileInput("gameI.txt");
+            Scanner scanner = new Scanner(fis);
+            String scoreIn = scanner.nextLine();
+            highscore = Integer.parseInt(scoreIn);
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        TextView highScoreText = (TextView)findViewById(R.id.textView_HighScore);
+        highScoreText.setText(Integer.toString(highscore));
+
+        cpuStatus();
+        if (sg == null) {
+            startTurn();
+        }
 
         ImageButton blue = (ImageButton) findViewById(R.id.imageButton_Blue);
         blue.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +204,13 @@ public class GameOne extends AppCompatActivity {
         if (it == cpu.size()) {
             it = 0;
             player.clear();
+            score++;
+            TextView scoreText = (TextView)findViewById(R.id.textView_CurrentScore);
+            scoreText.setText(Integer.toString(score));
+            if (score > highscore) {
+                TextView highScoreText = (TextView)findViewById(R.id.textView_HighScore);
+                highScoreText.setText(Integer.toString(score));
+            }
             startTurn();
         }
     }
@@ -195,9 +222,28 @@ public class GameOne extends AppCompatActivity {
         sg.execute();
     }
 
+    private void writeHighScore() {
+        try {
+            FileOutputStream fos = openFileOutput("gameI.txt", Context.MODE_PRIVATE);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            BufferedWriter bw = new BufferedWriter(osw);
+            PrintWriter pw = new PrintWriter(bw);
+            pw.println(score);
+            pw.close();
+        } catch (FileNotFoundException e) {
+            // Logs an error message, prints the StackTrace and shows the user an error message if the data file cannot be found
+            Log.e("WRITE_ERR", "Cannot dave data: " + e.getMessage());
+            e.printStackTrace();
+
+        }
+    }
+
     public void endGame () {
         if (soundsLoaded.contains(end_sound)) {
             soundPool.play(end_sound, 1.0f, 1.0f, 0, 0, 1.0f);
+        }
+        if (score > highscore) {
+            writeHighScore();
         }
         Intent intent = new Intent(getApplicationContext(), MainMenu.class);
         startActivity(intent);
