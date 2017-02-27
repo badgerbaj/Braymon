@@ -39,7 +39,7 @@ public class GameOne extends AppCompatActivity {
     private static final String SCORE_KEY = "0";
 
     int blue_sound, red_sound, green_sound, yellow_sound, end_sound, it;
-    private UpdateTask sg;
+    private static UpdateTask sg;
 
     ArrayList<Integer> cpu;
     ArrayList<Integer> player;
@@ -133,6 +133,12 @@ public class GameOne extends AppCompatActivity {
             startTurn();
         }
         else { // possibly a rotation - may have data
+            turn = false;
+            if (sg.getStatus() == AsyncTask.Status.RUNNING) {
+                sg.cancel(true);
+            }
+            sg = new UpdateTask();
+            sg.execute();
             it = savedInstanceState.getInt(IT_KEY, 0);
             cpu = savedInstanceState.getIntegerArrayList(CPU_KEY);
             player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
