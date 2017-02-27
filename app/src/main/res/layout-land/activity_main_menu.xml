@@ -39,7 +39,12 @@
                 android:background="@android:color/background_dark"
                 android:scaleType="fitXY"
                 />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
             <ImageButton
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -68,7 +73,9 @@
         app:srcCompat="@drawable/braymon_logo"
         android:id="@+id/imageView"
         android:layout_marginBottom="0dp"
-        android:visibility="invisible"/>
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
 
     <Button
         android:layout_width="48dp"
@@ -77,8 +84,9 @@
         android:background="@drawable/button_retro"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="0dp"
-        android:visibility="invisible"/>
+        android:layout_margin="0dp"
+        android:text="II"
+        android:textColor="@color/colorPrimary" />
 
     <Button
         android:layout_width="48dp"
@@ -89,8 +97,18 @@
         android:layout_alignBaseline="@+id/button_game_ii"
         android:layout_alignBottom="@+id/button_game_ii"
         android:layout_toStartOf="@+id/button_game_ii"
-        android:visibility="invisible"
-        />
+        android:text="I"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:text="0"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_CurrentScore"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/button_game_i"
+        android:layout_alignStart="@+id/button_game_i" />
 
     <Button
         android:layout_width="48dp"
@@ -101,18 +119,28 @@
         android:layout_alignBaseline="@+id/button_game_ii"
         android:layout_alignBottom="@+id/button_game_ii"
         android:layout_toEndOf="@+id/button_game_ii"
-        android:visibility="invisible"
-        />
+        android:text="III"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:text="0"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_HighScore"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/button_game_iii"
+        android:layout_alignEnd="@+id/button_game_iii" />
 
     <Button
         android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:id="@+id/button_about"
         android:background="@drawable/button_retro"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/button_game_ii"
         android:layout_alignStart="@+id/button_game_ii"
-        android:visibility="invisible"
-        android:enabled="false" />
+        android:textColor="@color/colorPrimary"
+        android:text="A" />
 
 </RelativeLayout>

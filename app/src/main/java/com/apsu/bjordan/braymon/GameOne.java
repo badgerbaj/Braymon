@@ -24,36 +24,49 @@ public class GameOne extends AppCompatActivity {
     private SoundPool soundPool;
     private Set<Integer> soundsLoaded;
 
-    int blue_sound, red_sound, green_sound, yellow_sound, end_sound;
+    private static final String IT_KEY = "IT";
+    private static final String CPU_KEY = "CPU";
+    private static final String PLAYER_KEY = "PLAYER";
+    private static final String TURN_KEY = "TURN";
 
-    ArrayList<Integer> cpu = new ArrayList<Integer>();
-    ArrayList<Integer> player = new ArrayList<Integer>();
-
+    int blue_sound, red_sound, green_sound, yellow_sound, end_sound, it;
     private UpdateTask sg;
-    Boolean turn = false;
-    int it = 0;
+
+    ArrayList<Integer> cpu;
+    ArrayList<Integer> player;
+    Boolean turn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_i);
 
+        if (savedInstanceState == null) {  // no rotation - total new start
+            turn = false;
+            it = 0;
+            cpu = new ArrayList<Integer>();
+            player = new ArrayList<Integer>();
+        }
+        else { // possibly a rotation - may have data
+            it = savedInstanceState.getInt(IT_KEY, 0);
+            cpu = savedInstanceState.getIntegerArrayList(CPU_KEY);
+            player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
+            //turn = savedInstanceState.getBoolean(TURN_KEY);
+            turn = true;
 
-            Button start = (Button) findViewById(R.id.start_button);
-            start.setOnClickListener(new View.OnClickListener() {
+        }
 
-                @Override
-                public void onClick(View view) {
-                    cpuStatus();
-                    if (sg == null) {
-                        startTurn();
-                    }
+        Button start = (Button) findViewById(R.id.start_button);
+        start.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                cpuStatus();
+                if (sg == null) {
+                    startTurn();
                 }
-            });
-
-
-
+            }
+        });
 
         ImageButton blue = (ImageButton) findViewById(R.id.imageButton_Blue);
         blue.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +79,6 @@ public class GameOne extends AppCompatActivity {
                     player.add(1);
                     checkStatus();
                 }
-
             }
         });
 
@@ -81,7 +93,6 @@ public class GameOne extends AppCompatActivity {
                     player.add(2);
                     checkStatus();
                 }
-
             }
         });
 
@@ -114,39 +125,46 @@ public class GameOne extends AppCompatActivity {
         });
 
         soundsLoaded = new HashSet<Integer>();
-
     }
 
-        @Override
-        protected void onResume() {
-            super.onResume();
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                soundPool = new SoundPool.Builder().setMaxStreams(10).build();
-            }
-            else {
-                soundPool = new SoundPool(10,AudioManager.STREAM_MUSIC, 1);
-            }
+        outState.putInt(IT_KEY, it);
+        outState.putIntegerArrayList(CPU_KEY, cpu);
+        outState.putIntegerArrayList(PLAYER_KEY, player);
+        outState.putBoolean(TURN_KEY, turn);
+    }
 
-            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-                @Override
-                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                    if (status == 0 ) {
-                        soundsLoaded.add(sampleId);
-                    } else {
-                        Log.i("SOUND", "Sound Error");
-                    }
-                }
-            });
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-            blue_sound = soundPool.load(this, R.raw.blue_note, 1);
-            red_sound = soundPool.load(this, R.raw.red_note, 1);
-            green_sound = soundPool.load(this, R.raw.green_note, 1);
-            yellow_sound = soundPool.load(this, R.raw.yellow_note, 1);
-            end_sound = soundPool.load(this, R.raw.fail_note, 1);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool.Builder().setMaxStreams(10).build();
+        }
+        else {
+            soundPool = new SoundPool(10,AudioManager.STREAM_MUSIC, 1);
         }
 
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                if (status == 0 ) {
+                    soundsLoaded.add(sampleId);
+                } else {
+                    Log.i("SOUND", "Sound Error");
+                }
+            }
+        });
 
+        blue_sound = soundPool.load(this, R.raw.blue_note, 1);
+        red_sound = soundPool.load(this, R.raw.red_note, 1);
+        green_sound = soundPool.load(this, R.raw.green_note, 1);
+        yellow_sound = soundPool.load(this, R.raw.yellow_note, 1);
+        end_sound = soundPool.load(this, R.raw.fail_note, 1);
+    }
 
     public void cpuStatus () {
         if (sg != null && sg.getStatus() == AsyncTask.Status.FINISHED) {
@@ -154,7 +172,6 @@ public class GameOne extends AppCompatActivity {
             turn = true;
         }
     }
-
 
     public void checkStatus () {
         if (player.get(it) == cpu.get(it)) {
@@ -184,10 +201,7 @@ public class GameOne extends AppCompatActivity {
         }
         Intent intent = new Intent(getApplicationContext(), MainMenu.class);
         startActivity(intent);
-        }
-
-
-
+    }
 
     class UpdateTask extends AsyncTask<Void, Void, Void> {
 
@@ -323,7 +337,4 @@ public class GameOne extends AppCompatActivity {
             soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 2.0f);
         }
     }
-
-
-
 }
