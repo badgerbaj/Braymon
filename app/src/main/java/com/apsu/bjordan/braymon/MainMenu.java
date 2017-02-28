@@ -33,7 +33,6 @@ import java.util.Set;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
 
-    int gameMode = 0;
     private SoundPool soundPool;
     private Set<Integer> soundsLoaded;
 
@@ -49,15 +48,12 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     private Color blue, red, green, yellow;
     private HashMap<Integer, Color> colorMap;
 
-    int blue_sound, red_sound, green_sound, yellow_sound, end_sound, it;
+    private int end_sound, it, gameMode, playerScore, highScore, TILT;
     private static UpdateTask sg;
 
-    ArrayList<Integer> cpu;
-    ArrayList<Integer> player;
-    Boolean turn = false;
-
-    int playerScore = 0;
-    int highScore = 0;
+    private ArrayList<Integer> cpu;
+    private ArrayList<Integer> player;
+    private Boolean turn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,28 +107,47 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             it = 0; // iterator to go through arrays
             cpu = new ArrayList<Integer>(); // creates array list for cpu
             player = new ArrayList<Integer>(); // creates array list for player
+            gameMode = 0;
+            playerScore = 0;
+            highScore = 0;
+            TILT = 0;
          }
         else { // possibly a rotation - may have data
-            turn = false; // turn set to false to lock buttons
+
             // if the screen is rotated during the computer's turn, cancels the cpu's turn and restarts
             // sets correct variables after screen rotation
 
             it = savedInstanceState.getInt(IT_KEY, 0);
             cpu = savedInstanceState.getIntegerArrayList(CPU_KEY);
             player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
-            playerScore = savedInstanceState.getInt(SCORE_KEY);
-            highScore = savedInstanceState.getInt(HIGH_KEY);
-            gameMode = savedInstanceState.getInt(GAME_KEY);
+            playerScore = savedInstanceState.getInt(SCORE_KEY, 0);
+            highScore = savedInstanceState.getInt(HIGH_KEY, 0);
+            gameMode = savedInstanceState.getInt(GAME_KEY, 0);
+
             scoreTV.setText(Integer.toString(playerScore));
             highScoreTV.setText(Integer.toString(highScore));
             scoreTV.setVisibility(View.VISIBLE);
             highScoreTV.setVisibility(View.VISIBLE);
 
-            if (sg.getStatus() == AsyncTask.Status.RUNNING) {
-                sg.cancel(true);
+            // To prevent exploit, the player will only be allowed to rotate
+            // Mid-cpu play once per game.  If the user does this more than once,
+            // The game is automatically over.
+            if ( sg != null && sg.getStatus() == AsyncTask.Status.RUNNING) {
+                turn = false; // turn set to false to lock buttons
+
+                if(TILT == 0) {
+                    sg.cancel(true);
+                    sg = new MainMenu.UpdateTask();
+                    sg.execute();
+                    TILT++;
+                }
+                else {
+                    endGame();
+                }
             }
-            sg = new MainMenu.UpdateTask();
-            sg.execute();
+            else {
+                turn = true;
+            }
         }
 
         // selects game mode 1
@@ -141,7 +156,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             public void onClick(View view) {
                 if (gameMode == 0) {
                     gameMode = 1;
-                    GameOne();
+                    GameOn();
                 }
             }
         });
@@ -152,7 +167,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             public void onClick(View view) {
                 if (gameMode == 0) {
                     gameMode = 2;
-                    GameTwo();
+                    GameOn();
                 }
             }
         });
@@ -163,7 +178,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             public void onClick(View view) {
                 if (gameMode == 0) {
                     gameMode = 3;
-                    GameThree();
+                    GameOn();
                 }
             }
         });
@@ -292,6 +307,37 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         outState.putInt(GAME_KEY, gameMode);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // soundpool for SDK greater than or equal to 21
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            soundPool = new SoundPool.Builder().setMaxStreams(10).build();
+        }
+        // soundpool for SDK less than 21
+        else {
+            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
+        }
+
+        // loads sound files
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                if (status == 0 ) {
+                    soundsLoaded.add(sampleId);
+                } else {
+                    Log.i("SOUND", "Sound Error");
+                }
+            }
+        });
+        blue.setSound(soundPool.load(this, R.raw.blue_note, 1));
+        red.setSound(soundPool.load(this, R.raw.red_note, 1));
+        green.setSound(soundPool.load(this, R.raw.green_note, 1));
+        yellow.setSound(soundPool.load(this, R.raw.yellow_note, 1));
+        end_sound = soundPool.load(this, R.raw.fail_note, 1);
+    }
+
     // Lights the button and plays sound
     public void lightItUp (Color color) {
 
@@ -314,35 +360,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
-    // Game I function
     // gets game high score and starts cpu turn
-    public void GameOne() {
-        readHighScore(gameMode);
-        TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
-        scoreTV.setText(Integer.toString(playerScore));
-        scoreTV.setVisibility(View.VISIBLE);
-        TextView highScoreTV = (TextView) findViewById(R.id.textView_HighScore);
-        highScoreTV.setText(Integer.toString(highScore));
-        highScoreTV.setVisibility(View.VISIBLE);
-        startTurn();
-    }
-
-    // Game II function
-    // gets game high score and starts cpu turn
-    public void GameTwo() {
-        readHighScore(gameMode);
-        TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
-        scoreTV.setText(Integer.toString(playerScore));
-        scoreTV.setVisibility(View.VISIBLE);
-        TextView highScoreTV = (TextView) findViewById(R.id.textView_HighScore);
-        highScoreTV.setText(Integer.toString(highScore));
-        highScoreTV.setVisibility(View.VISIBLE);
-        startTurn();
-    }
-
-    // Game III function
-    // gets game high score and starts cpu turn
-    public void GameThree() {
+    public void GameOn() {
         readHighScore(gameMode);
         TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
         scoreTV.setText(Integer.toString(playerScore));
@@ -426,37 +445,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             sg.execute();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // soundpool for SDK greater than or equal to 21
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            soundPool = new SoundPool.Builder().setMaxStreams(10).build();
-        }
-        // soundpool for SDK less than 21
-        else {
-            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
-        }
-
-        // loads sound files
-        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                if (status == 0 ) {
-                    soundsLoaded.add(sampleId);
-                } else {
-                    Log.i("SOUND", "Sound Error");
-                }
-            }
-        });
-        blue.setSound(soundPool.load(this, R.raw.blue_note, 1));
-        red.setSound(soundPool.load(this, R.raw.red_note, 1));
-        green.setSound(soundPool.load(this, R.raw.green_note, 1));
-        yellow.setSound(soundPool.load(this, R.raw.yellow_note, 1));
-        end_sound = soundPool.load(this, R.raw.fail_note, 1);
-    }
-
     // checks if cpu has completed turn
     public void cpuStatus () {
         if (sg != null && sg.getStatus() == AsyncTask.Status.FINISHED) {
@@ -482,8 +470,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             TextView highScoreTV = (TextView)findViewById(R.id.textView_HighScore);
             highScoreTV.setVisibility(View.INVISIBLE);
             playerScore = 0;
-            highScore = 0;
+            // BUG: High Score should remain displayed
+            // highScore = 0;
             gameMode = 0;
+            TILT = 0;
         }
     }
 
@@ -619,8 +609,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    // Helper function for UpdateTask
     private void selectColor(int color){
-        // Helper function for UpdateTask
+
         Color aColor;
         switch (color) {
             case 1: aColor = blue;
