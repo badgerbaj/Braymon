@@ -39,8 +39,9 @@ public class MainMenu extends AppCompatActivity {
     private static final String IT_KEY = "IT";
     private static final String CPU_KEY = "CPU";
     private static final String PLAYER_KEY = "PLAYER";
-    private static final String SCORE_KEY = "0";
-    private static final String GAME_KEY = "0";
+    private static final String SCORE_KEY = "SCORE";
+    private static final String HIGH_KEY = "HIGH";
+    private static final String GAME_KEY = "GAME";
 
     int blue_sound, red_sound, green_sound, yellow_sound, end_sound, it;
     private static UpdateTask sg;
@@ -71,22 +72,25 @@ public class MainMenu extends AppCompatActivity {
          }
         else { // possibly a rotation - may have data
             turn = false; // turn set to false to lock buttons
-
             // if the screen is rotated during the computer's turn, cancels the cpu's turn and restarts
+            // sets correct variables after screen rotation
+
+            it = savedInstanceState.getInt(IT_KEY, 0);
+            cpu = savedInstanceState.getIntegerArrayList(CPU_KEY);
+            player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
+            playerScore = savedInstanceState.getInt(SCORE_KEY);
+            highScore = savedInstanceState.getInt(HIGH_KEY);
+            gameMode = savedInstanceState.getInt(GAME_KEY);
+            scoreTV.setText(Integer.toString(playerScore));
+            highScoreTV.setText(Integer.toString(highScore));
+            scoreTV.setVisibility(View.VISIBLE);
+            highScoreTV.setVisibility(View.VISIBLE);
+
             if (sg.getStatus() == AsyncTask.Status.RUNNING) {
                 sg.cancel(true);
             }
             sg = new MainMenu.UpdateTask();
             sg.execute();
-
-            // sets correct variables after screen rotation
-            it = savedInstanceState.getInt(IT_KEY, 0);
-            cpu = savedInstanceState.getIntegerArrayList(CPU_KEY);
-            player = savedInstanceState.getIntegerArrayList(PLAYER_KEY);
-            playerScore = savedInstanceState.getInt(SCORE_KEY);
-            gameMode = savedInstanceState.getInt(GAME_KEY);
-            TextView scoreText = (TextView)findViewById(R.id.textView_CurrentScore);
-            scoreText.setText(Integer.toString(playerScore));
         }
 
         // selects game mode 1
@@ -369,6 +373,19 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // outputs values on screen rotation
+        outState.putInt(IT_KEY, it);
+        outState.putIntegerArrayList(CPU_KEY, cpu);
+        outState.putIntegerArrayList(PLAYER_KEY, player);
+        outState.putInt(SCORE_KEY, playerScore);
+        outState.putInt(HIGH_KEY, highScore);
+        outState.putInt(GAME_KEY, gameMode);
+
+    }
+
     // Game I function
     // gets game high score and starts cpu turn
     public void GameOne() {
@@ -480,19 +497,6 @@ public class MainMenu extends AppCompatActivity {
             cpu.add(pickButton());
             sg = new MainMenu.UpdateTask();
             sg.execute();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // outputs values on screen rotation
-        outState.putInt(IT_KEY, it);
-        outState.putIntegerArrayList(CPU_KEY, cpu);
-        outState.putIntegerArrayList(PLAYER_KEY, player);
-        outState.putInt(SCORE_KEY, playerScore);
-        outState.putInt(GAME_KEY, gameMode);
-
     }
 
     @Override
@@ -792,6 +796,8 @@ public class MainMenu extends AppCompatActivity {
             soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 2.0f);
         }
     }
+
+    
 
 
 }
