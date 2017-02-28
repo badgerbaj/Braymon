@@ -45,6 +45,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     private static final String SCORE_KEY = "SCORE";
     private static final String HIGH_KEY = "HIGH";
     private static final String GAME_KEY = "GAME";
+    private static final String TILT_KEY = "TILT";
 
     // Color Objects
     private Color blue, red, green, yellow;
@@ -125,6 +126,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             playerScore = savedInstanceState.getInt(SCORE_KEY, 0);
             highScore = savedInstanceState.getInt(HIGH_KEY, 0);
             gameMode = savedInstanceState.getInt(GAME_KEY, 0);
+            TILT = savedInstanceState.getInt(TILT_KEY, 0);
 
             scoreTV.setText(Integer.toString(playerScore));
             highScoreTV.setText(Integer.toString(highScore));
@@ -144,7 +146,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     TILT++;
                 }
                 else {
-                    endGame();
+                    sg.cancel(true);
+                    
+                    // endGame();
                 }
             }
             else {
@@ -307,6 +311,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         outState.putInt(SCORE_KEY, playerScore);
         outState.putInt(HIGH_KEY, highScore);
         outState.putInt(GAME_KEY, gameMode);
+        outState.putInt(TILT_KEY, TILT);
     }
 
     @Override
