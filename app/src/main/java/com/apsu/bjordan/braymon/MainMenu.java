@@ -37,6 +37,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     private SoundPool soundPool;
     private Set<Integer> soundsLoaded;
 
+    // Static Text Values
     private static final String IT_KEY = "IT";
     private static final String CPU_KEY = "CPU";
     private static final String PLAYER_KEY = "PLAYER";
@@ -44,6 +45,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     private static final String HIGH_KEY = "HIGH";
     private static final String GAME_KEY = "GAME";
 
+    // Color Objects
     private Color blue, red, green, yellow;
     private HashMap<Integer, Color> colorMap;
 
@@ -62,36 +64,42 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        // Build Blue
         blue = new Color();
         blue.setDark(R.drawable.button_blue_dark_rt);
         blue.setBright(R.drawable.button_blue_bright_rt);
         blue.setIb(R.id.imageButton_Blue);
         blue.setColorId(1);
 
+        // Build Red
         red = new Color();
         red.setDark(R.drawable.button_red_dark_rt);
         red.setBright(R.drawable.button_red_bright_rt);
         red.setIb(R.id.imageButton_Red);
         red.setColorId(2);
 
+        // Build Green
         green = new Color();
         green.setDark(R.drawable.button_green_dark_rt);
         green.setBright(R.drawable.button_green_bright_rt);
         green.setIb(R.id.imageButton_Green);
         green.setColorId(3);
 
+        // Build Yellow
         yellow = new Color();
         yellow.setDark(R.drawable.button_yellow_dark_rt);
         yellow.setBright(R.drawable.button_yellow_bright_rt);
         yellow.setIb(R.id.imageButton_Yellow);
         yellow.setColorId(4);
 
+        // Build map to translate button clicks to a color object
         colorMap = new HashMap<>();
         colorMap.put(R.id.imageButton_Blue, blue);
         colorMap.put(R.id.imageButton_Red, red);
         colorMap.put(R.id.imageButton_Green, green);
         colorMap.put(R.id.imageButton_Yellow, yellow);
 
+        // Hide Empty Scores
         TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
         scoreTV.setVisibility(View.INVISIBLE);
         TextView highScoreTV = (TextView) findViewById(R.id.textView_HighScore);
@@ -194,6 +202,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
+        // Initialize ImageButtons
         int[] buttonIds = {R.id.imageButton_Blue, R.id.imageButton_Red, R.id.imageButton_Green, R.id.imageButton_Yellow };
         for( int id : buttonIds)
         {
@@ -219,9 +228,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 cpuStatus();
                 if (turn == true) {
                     // lights and sound effects
-                    lightItUp(color); // lights and sound effects
-                    player.add(color.getColorId()); // adds selected button to player array
-                    checkStatus(); // checks if correct button was pressed
+                    lightItUp(color);
+                    // adds selected button to player array
+                    player.add(color.getColorId());
+                    // checks if correct button was pressed
+                    checkStatus();
                 }
                 break;
             case 2:
@@ -229,12 +240,16 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                     cpuStatus();
                     // lights and sound effects
                     lightItUp(color);
-                    player.add(color.getColorId()); // adds selected button to player array
-                    checkStatus(); // checks if correct button was pressed
+                    // adds selected button to player array
+                    player.add(color.getColorId());
+                    // checks if correct button was pressed
+                    checkStatus();
                 }
                 else {
-                    player.clear(); // clears player array
-                    cpu.add(color.getColorId()); // adds selected button to player array
+                    // clears player array
+                    player.clear();
+                    // adds selected button to player array
+                    cpu.add(color.getColorId());
                     // lights and sound effects
                     lightItUp(color);
                 }
@@ -244,21 +259,25 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 if (gameMode == 3 && player.size() != cpu.size()) {
                     // lights and sound effects
                     lightItUp(color);
-                    player.add(color.getColorId()); // adds selected button to player array
-                    checkStatus(); // checks if correct button was pressed
+                    // adds selected button to player array
+                    player.add(color.getColorId());
+                    // checks if correct button was pressed
+                    checkStatus();
                 }
                 else {
-                    player.clear(); // clears player array
-                    cpu.add(color.getColorId()); // adds selected button to player array
+                    // clears player array
+                    player.clear();
+                    // adds selected button to player array
+                    cpu.add(color.getColorId());
                     // lights and sound effects
                     lightItUp(color);
-                    startTurn(); // starts cpu turn
+                    // starts cpu turn
+                    startTurn();
                 }
                 break;
             default:
                 break;
         }
-
     }
 
     @Override
@@ -271,10 +290,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         outState.putInt(SCORE_KEY, playerScore);
         outState.putInt(HIGH_KEY, highScore);
         outState.putInt(GAME_KEY, gameMode);
-
     }
 
-    // lights blue button and plays sound
+    // Lights the button and plays sound
     public void lightItUp (Color color) {
 
         if (color.getColorId() > 0) {
@@ -466,7 +484,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             playerScore = 0;
             highScore = 0;
             gameMode = 0;
-
         }
     }
 
@@ -603,7 +620,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void selectColor(int color){
-
+        // Helper function for UpdateTask
         Color aColor;
         switch (color) {
             case 1: aColor = blue;
