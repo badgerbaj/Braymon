@@ -2,6 +2,7 @@ package com.apsu.bjordan.braymon;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.AudioManager;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -336,6 +338,18 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         green.setSound(soundPool.load(this, R.raw.green_note, 1));
         yellow.setSound(soundPool.load(this, R.raw.yellow_note, 1));
         end_sound = soundPool.load(this, R.raw.fail_note, 1);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ( sg != null && sg.getStatus() == AsyncTask.Status.RUNNING) {
+                sg.cancel(true);
+            }
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     // Lights the button and plays sound
