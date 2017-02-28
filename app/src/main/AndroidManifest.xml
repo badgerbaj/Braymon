@@ -10,14 +10,13 @@
         android:theme="@style/AppTheme"
         android:isGame="true"
         >
-        <activity android:name=".MainMenu">
+        <activity android:name=".MainMenu" android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameOne" />
     </application>
 
 </manifest>
