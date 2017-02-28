@@ -24,13 +24,14 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements View.OnClickListener {
 
     int gameMode = 0;
     private SoundPool soundPool;
@@ -42,6 +43,9 @@ public class MainMenu extends AppCompatActivity {
     private static final String SCORE_KEY = "SCORE";
     private static final String HIGH_KEY = "HIGH";
     private static final String GAME_KEY = "GAME";
+
+    private Color blue, red, green, yellow;
+    private HashMap<Integer, Color> colorMap;
 
     int blue_sound, red_sound, green_sound, yellow_sound, end_sound, it;
     private static UpdateTask sg;
@@ -57,6 +61,36 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        blue = new Color();
+        blue.setDark(R.drawable.button_blue_dark_rt);
+        blue.setBright(R.drawable.button_blue_bright_rt);
+        blue.setIb(R.id.imageButton_Blue);
+        blue.setColorId(1);
+
+        red = new Color();
+        red.setDark(R.drawable.button_red_dark_rt);
+        red.setBright(R.drawable.button_red_bright_rt);
+        red.setIb(R.id.imageButton_Red);
+        red.setColorId(2);
+
+        green = new Color();
+        green.setDark(R.drawable.button_green_dark_rt);
+        green.setBright(R.drawable.button_green_bright_rt);
+        green.setIb(R.id.imageButton_Green);
+        green.setColorId(3);
+
+        yellow = new Color();
+        yellow.setDark(R.drawable.button_yellow_dark_rt);
+        yellow.setBright(R.drawable.button_yellow_bright_rt);
+        yellow.setIb(R.id.imageButton_Yellow);
+        yellow.setColorId(4);
+
+        colorMap = new HashMap<>();
+        colorMap.put(R.id.imageButton_Blue, blue);
+        colorMap.put(R.id.imageButton_Red, red);
+        colorMap.put(R.id.imageButton_Green, green);
+        colorMap.put(R.id.imageButton_Yellow, yellow);
 
         TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
         scoreTV.setVisibility(View.INVISIBLE);
@@ -160,216 +194,70 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        // blue button on game screen
-        ImageButton blue = (ImageButton) findViewById(R.id.imageButton_Blue);
-        blue.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                // checks status of game so that user cannot press button until their turn
-                switch (gameMode) {
-                    case 0:
-                        selectButton(1); // lights and sound effects for button 1
-                        break;
-                    case 1:
-                        cpuStatus();
-                        if (turn == true) {
-                            selectButton(1); // lights and sound effects for button 1
-                            player.add(1); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        break;
-                    case 2:
-                        cpuStatus();
-                        if (gameMode == 2 && player.size() != cpu.size()) {
-                            selectButton(1); // lights and sound effects for button 1
-                            player.add(1); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        else {
-                            player.clear(); // clears player array
-                            cpu.add(1); // adds selected button to player array
-                            selectButton(1); // lights and sound effects for button 1
-                        }
-                        break;
-                    case 3:
-                        cpuStatus();
-                        if (gameMode == 3 && player.size() != cpu.size()) {
-                            selectButton(1); // lights and sound effects for button 1
-                            player.add(1); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        else {
-                            player.clear(); // clears player array
-                            cpu.add(1); // adds selected button to player array
-                            selectButton(1); // lights and sound effects for button 1
-                            startTurn(); // starts cpu turn
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
-        // red button on game screen
-        ImageButton red = (ImageButton) findViewById(R.id.imageButton_Red);
-        red.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                // checks status of game so that user cannot press button until their turn
-                switch (gameMode) {
-                    case 0:
-                        selectButton(2); // lights and sound effects for button 2
-                        break;
-                    case 1:
-                        cpuStatus();
-                        if (turn == true) {
-                            selectButton(2); // lights and sound effects for button 2
-                            player.add(2); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        break;
-                    case 2:
-                        if (gameMode == 2 && player.size() != cpu.size()) {
-                            cpuStatus();
-                            selectButton(2); // lights and sound effects for button 2
-                            player.add(2); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        else {
-                            player.clear(); // clears player array
-                            cpu.add(2); // adds selected button to player array
-                            selectButton(2); // lights and sound effects for button 2
-                        }
-                        break;
-                    case 3:
-                        cpuStatus();
-                        if (gameMode == 3 && player.size() != cpu.size()) {
-                            selectButton(2); // lights and sound effects for button 2
-                            player.add(2); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        else {
-                            player.clear(); // clears player array
-                            cpu.add(2); // adds selected button to player array
-                            selectButton(2); // lights and sound effects for button 2
-                            startTurn(); // starts cpu turn
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
-        // green button on game screen
-        ImageButton green = (ImageButton) findViewById(R.id.imageButton_Green);
-        green.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                // checks status of game so that user cannot press button until their turn
-                switch (gameMode) {
-                    case 0:
-                        selectButton(3); // lights and sound effects for button 3
-                        break;
-                    case 1:
-                        cpuStatus();
-                        if (turn == true) {
-                            selectButton(3); // lights and sound effects for button 3
-                            player.add(3); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        break;
-                    case 2:
-                        if (gameMode == 2 && player.size() != cpu.size()) {
-                            cpuStatus();
-                            selectButton(3); // lights and sound effects for button 3
-                            player.add(3); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        else {
-                            player.clear(); // clears player array
-                            cpu.add(3); // adds selected button to player array
-                            selectButton(3); // lights and sound effects for button 3
-                        }
-                        break;
-                    case 3:
-                        cpuStatus();
-                        if (gameMode == 3 && player.size() != cpu.size()) {
-                            selectButton(3); // lights and sound effects for button 3
-                            player.add(3); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        else {
-                            player.clear(); // clears player array
-                            cpu.add(3); // adds selected button to player array
-                            selectButton(3); // lights and sound effects for button 3
-                            startTurn(); // starts cpu turn
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
-        // yellow button on game screen
-        ImageButton yellow = (ImageButton) findViewById(R.id.imageButton_Yellow);
-        yellow.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                // checks status of game so that user cannot press button until their turn
-                switch (gameMode) {
-                    case 0:
-                        selectButton(4); // lights and sound effects for button 4
-                        break;
-                    case 1:
-                        cpuStatus();
-                        if (turn == true) {
-                            selectButton(4); // lights and sound effects for button 4
-                            player.add(4); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        break;
-                    case 2:
-                        if (gameMode == 2 && player.size() != cpu.size()) {
-                            cpuStatus();
-                            selectButton(4); // lights and sound effects for button 4
-                            player.add(4); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        else {
-                            player.clear(); // clears player array
-                            cpu.add(4); // adds selected button to player array
-                            selectButton(4); // lights and sound effects for button 4
-                        }
-                        break;
-                    case 3:
-                        cpuStatus();
-                        if (gameMode == 3 && player.size() != cpu.size()) {
-                            selectButton(4); // lights and sound effects for button 1
-                            player.add(4); // adds selected button to player array
-                            checkStatus(); // checks if correct button was pressed
-                        }
-                        else {
-                            player.clear(); // clears player array
-                            cpu.add(4); // adds selected button to player array
-                            selectButton(4); // lights and sound effects for button 1
-                            startTurn(); // starts cpu turn
-                            }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+        int[] buttonIds = {R.id.imageButton_Blue, R.id.imageButton_Red, R.id.imageButton_Green, R.id.imageButton_Yellow };
+        for( int id : buttonIds)
+        {
+            ImageButton ib = (ImageButton) findViewById(id);
+            ib.setOnClickListener(this);
+        }
 
         // creates sound effects set
         soundsLoaded = new HashSet<Integer>();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Color color = colorMap.get(v.getId());
+
+        switch (gameMode) {
+            case 0:
+                // lights and sound effects
+                lightItUp(color);
+                break;
+            case 1:
+                cpuStatus();
+                if (turn == true) {
+                    // lights and sound effects
+                    lightItUp(color); // lights and sound effects
+                    player.add(color.getColorId()); // adds selected button to player array
+                    checkStatus(); // checks if correct button was pressed
+                }
+                break;
+            case 2:
+                if (gameMode == 2 && player.size() != cpu.size()) {
+                    cpuStatus();
+                    // lights and sound effects
+                    lightItUp(color);
+                    player.add(color.getColorId()); // adds selected button to player array
+                    checkStatus(); // checks if correct button was pressed
+                }
+                else {
+                    player.clear(); // clears player array
+                    cpu.add(color.getColorId()); // adds selected button to player array
+                    // lights and sound effects
+                    lightItUp(color);
+                }
+                break;
+            case 3:
+                cpuStatus();
+                if (gameMode == 3 && player.size() != cpu.size()) {
+                    // lights and sound effects
+                    lightItUp(color);
+                    player.add(color.getColorId()); // adds selected button to player array
+                    checkStatus(); // checks if correct button was pressed
+                }
+                else {
+                    player.clear(); // clears player array
+                    cpu.add(color.getColorId()); // adds selected button to player array
+                    // lights and sound effects
+                    lightItUp(color);
+                    startTurn(); // starts cpu turn
+                }
+                break;
+            default:
+                break;
+        }
 
     }
 
@@ -384,6 +272,28 @@ public class MainMenu extends AppCompatActivity {
         outState.putInt(HIGH_KEY, highScore);
         outState.putInt(GAME_KEY, gameMode);
 
+    }
+
+    // lights blue button and plays sound
+    public void lightItUp (Color color) {
+
+        if (color.getColorId() > 0) {
+            ImageButton ib = (ImageButton) findViewById(color.getIb());
+
+            TransitionDrawable td = new TransitionDrawable(new Drawable[]{
+                    getResources().getDrawable(color.getDark()),
+                    getResources().getDrawable(color.getBright())
+            });
+
+            ib.setImageDrawable(td);
+
+            playSound(color.getSound());
+            td.startTransition(500);
+            td.reverseTransition(500);
+        }
+        else {
+            // Fail silently
+        }
     }
 
     // Game I function
@@ -487,7 +397,6 @@ public class MainMenu extends AppCompatActivity {
 
             }
         }
-
     }
 
     // starts new cpu turn
@@ -523,10 +432,10 @@ public class MainMenu extends AppCompatActivity {
                 }
             }
         });
-        blue_sound = soundPool.load(this, R.raw.blue_note, 1);
-        red_sound = soundPool.load(this, R.raw.red_note, 1);
-        green_sound = soundPool.load(this, R.raw.green_note, 1);
-        yellow_sound = soundPool.load(this, R.raw.yellow_note, 1);
+        blue.setSound(soundPool.load(this, R.raw.blue_note, 1));
+        red.setSound(soundPool.load(this, R.raw.red_note, 1));
+        green.setSound(soundPool.load(this, R.raw.green_note, 1));
+        yellow.setSound(soundPool.load(this, R.raw.yellow_note, 1));
         end_sound = soundPool.load(this, R.raw.fail_note, 1);
     }
 
@@ -559,8 +468,6 @@ public class MainMenu extends AppCompatActivity {
             gameMode = 0;
 
         }
-
-
     }
 
     // writes high score to file
@@ -683,7 +590,7 @@ public class MainMenu extends AppCompatActivity {
 
                         @Override
                         public void run() {
-                            selectButton(num);
+                            selectColor(num);
                         }
                     });
 
@@ -695,6 +602,25 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
+    private void selectColor(int color){
+
+        Color aColor;
+        switch (color) {
+            case 1: aColor = blue;
+                break;
+            case 2: aColor = red;
+                break;
+            case 3: aColor = green;
+                break;
+            case 4: aColor = yellow;
+                break;
+            default: aColor = new Color();
+                break;
+        }
+
+        lightItUp(aColor);
+    }
+
     // picks a random number between 1 and 4 to add to the cpu array
     public int pickButton () {
         Random random = new Random();
@@ -704,100 +630,10 @@ public class MainMenu extends AppCompatActivity {
         return num;
     }
 
-    // switch used to light button and play sound for each button
-    // value passed from cpu array and player button press
-    public void selectButton (int i) {
-        switch (i) {
-            case 0:
-                break;
-            case 1: lightBlue();
-                break;
-            case 2: lightRed();
-                break;
-            case 3: lightGreen();
-                break;
-            case 4: lightYellow();
-                break;
-            default:
-                break;
-        }
-    }
-
-    // lights blue button and plays sound
-    public void lightBlue () {
-        ImageButton b = (ImageButton) findViewById(R.id.imageButton_Blue);
-
-        TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-                getResources().getDrawable(R.drawable.button_blue_dark_rt),
-                getResources().getDrawable(R.drawable.button_blue_bright_rt)
-        });
-
-        b.setImageDrawable(td);
-
-        playSound(blue_sound);
-        td.startTransition(500);
-        td.reverseTransition(500);
-
-    }
-
-    // lights red button and plays sound
-    public void lightRed () {
-        ImageButton b = (ImageButton) findViewById(R.id.imageButton_Red);
-
-        TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-                getResources().getDrawable(R.drawable.button_red_dark_rt),
-                getResources().getDrawable(R.drawable.button_red_bright_rt)
-        });
-
-        b.setImageDrawable(td);
-
-
-        playSound(red_sound);
-        td.startTransition(500);
-        td.reverseTransition(500);
-    }
-
-    // lights green button and plays sound
-    public void lightGreen () {
-        ImageButton b = (ImageButton) findViewById(R.id.imageButton_Green);
-
-        TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-                getResources().getDrawable(R.drawable.button_green_dark_rt),
-                getResources().getDrawable(R.drawable.button_green_bright_rt)
-        });
-
-        b.setImageDrawable(td);
-
-        playSound(green_sound);
-        td.startTransition(500);
-        td.reverseTransition(500);
-    }
-
-    // lights yellow button and plays sound
-    public void lightYellow () {
-        ImageButton b = (ImageButton) findViewById(R.id.imageButton_Yellow);
-
-        TransitionDrawable td = new TransitionDrawable(new Drawable[] {
-                getResources().getDrawable(R.drawable.button_yellow_dark_rt),
-                getResources().getDrawable(R.drawable.button_yellow_bright_rt)
-        });
-
-        b.setImageDrawable(td);
-
-
-        playSound(yellow_sound);
-        td.startTransition(500);
-        td.reverseTransition(500);
-    }
-
     // plays sound depending on button selected
     private void playSound(int soundId) {
         if (soundsLoaded.contains(soundId)) {
             soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 2.0f);
         }
     }
-
-    
-
-
 }
