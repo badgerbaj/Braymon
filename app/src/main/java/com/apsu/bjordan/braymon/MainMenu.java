@@ -89,6 +89,7 @@ public class MainMenu extends AppCompatActivity {
             scoreText.setText(Integer.toString(playerScore));
         }
 
+        // selects game mode 1
         findViewById(R.id.button_game_i).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +100,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        // selects game mode 2
         findViewById(R.id.button_game_ii).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +111,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        // selects game mode 3
         findViewById(R.id.button_game_iii).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +122,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        // selects about button
         findViewById(R.id.button_about).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,7 +183,7 @@ public class MainMenu extends AppCompatActivity {
                             checkStatus(); // checks if correct button was pressed
                         }
                         else {
-                            player.clear();
+                            player.clear(); // clears player array
                             cpu.add(1); // adds selected button to player array
                             selectButton(1); // lights and sound effects for button 1
                         }
@@ -192,10 +196,10 @@ public class MainMenu extends AppCompatActivity {
                             checkStatus(); // checks if correct button was pressed
                         }
                         else {
-                            player.clear();
+                            player.clear(); // clears player array
                             cpu.add(1); // adds selected button to player array
                             selectButton(1); // lights and sound effects for button 1
-                            startTurn();
+                            startTurn(); // starts cpu turn
                         }
                         break;
                     default:
@@ -213,12 +217,12 @@ public class MainMenu extends AppCompatActivity {
                 // checks status of game so that user cannot press button until their turn
                 switch (gameMode) {
                     case 0:
-                        selectButton(2); // lights and sound effects for button 1
+                        selectButton(2); // lights and sound effects for button 2
                         break;
                     case 1:
                         cpuStatus();
                         if (turn == true) {
-                            selectButton(2); // lights and sound effects for button 1
+                            selectButton(2); // lights and sound effects for button 2
                             player.add(2); // adds selected button to player array
                             checkStatus(); // checks if correct button was pressed
                         }
@@ -226,28 +230,28 @@ public class MainMenu extends AppCompatActivity {
                     case 2:
                         if (gameMode == 2 && player.size() != cpu.size()) {
                             cpuStatus();
-                            selectButton(2); // lights and sound effects for button 1
+                            selectButton(2); // lights and sound effects for button 2
                             player.add(2); // adds selected button to player array
                             checkStatus(); // checks if correct button was pressed
                         }
                         else {
-                            player.clear();
+                            player.clear(); // clears player array
                             cpu.add(2); // adds selected button to player array
-                            selectButton(2); // lights and sound effects for button 1
+                            selectButton(2); // lights and sound effects for button 2
                         }
                         break;
                     case 3:
                         cpuStatus();
                         if (gameMode == 3 && player.size() != cpu.size()) {
-                            selectButton(2); // lights and sound effects for button 1
+                            selectButton(2); // lights and sound effects for button 2
                             player.add(2); // adds selected button to player array
                             checkStatus(); // checks if correct button was pressed
                         }
                         else {
-                            player.clear();
+                            player.clear(); // clears player array
                             cpu.add(2); // adds selected button to player array
-                            selectButton(2); // lights and sound effects for button 1
-                            startTurn();
+                            selectButton(2); // lights and sound effects for button 2
+                            startTurn(); // starts cpu turn
                         }
                         break;
                     default:
@@ -265,12 +269,12 @@ public class MainMenu extends AppCompatActivity {
                 // checks status of game so that user cannot press button until their turn
                 switch (gameMode) {
                     case 0:
-                        selectButton(3); // lights and sound effects for button 1
+                        selectButton(3); // lights and sound effects for button 3
                         break;
                     case 1:
                         cpuStatus();
                         if (turn == true) {
-                            selectButton(3); // lights and sound effects for button 1
+                            selectButton(3); // lights and sound effects for button 3
                             player.add(3); // adds selected button to player array
                             checkStatus(); // checks if correct button was pressed
                         }
@@ -278,28 +282,28 @@ public class MainMenu extends AppCompatActivity {
                     case 2:
                         if (gameMode == 2 && player.size() != cpu.size()) {
                             cpuStatus();
-                            selectButton(3); // lights and sound effects for button 1
+                            selectButton(3); // lights and sound effects for button 3
                             player.add(3); // adds selected button to player array
                             checkStatus(); // checks if correct button was pressed
                         }
                         else {
-                            player.clear();
+                            player.clear(); // clears player array
                             cpu.add(3); // adds selected button to player array
-                            selectButton(3); // lights and sound effects for button 1
+                            selectButton(3); // lights and sound effects for button 3
                         }
                         break;
                     case 3:
                         cpuStatus();
                         if (gameMode == 3 && player.size() != cpu.size()) {
-                            selectButton(3); // lights and sound effects for button 1
+                            selectButton(3); // lights and sound effects for button 3
                             player.add(3); // adds selected button to player array
                             checkStatus(); // checks if correct button was pressed
                         }
                         else {
-                            player.clear();
+                            player.clear(); // clears player array
                             cpu.add(3); // adds selected button to player array
-                            selectButton(3); // lights and sound effects for button 1
-                            startTurn();
+                            selectButton(3); // lights and sound effects for button 3
+                            startTurn(); // starts cpu turn
                         }
                         break;
                     default:
@@ -335,7 +339,7 @@ public class MainMenu extends AppCompatActivity {
                             checkStatus(); // checks if correct button was pressed
                         }
                         else {
-                            player.clear();
+                            player.clear(); // clears player array
                             cpu.add(4); // adds selected button to player array
                             selectButton(4); // lights and sound effects for button 4
                         }
@@ -348,10 +352,10 @@ public class MainMenu extends AppCompatActivity {
                             checkStatus(); // checks if correct button was pressed
                         }
                         else {
-                            player.clear();
+                            player.clear(); // clears player array
                             cpu.add(4); // adds selected button to player array
                             selectButton(4); // lights and sound effects for button 1
-                            startTurn();
+                            startTurn(); // starts cpu turn
                             }
                         break;
                     default:
@@ -365,9 +369,10 @@ public class MainMenu extends AppCompatActivity {
 
     }
 
+    // Game I function
+    // gets game high score and starts cpu turn
     public void GameOne() {
-        // opens game I high score file
-        readHighScore();
+        readHighScore(gameMode);
         TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
         scoreTV.setText(Integer.toString(playerScore));
         scoreTV.setVisibility(View.VISIBLE);
@@ -377,20 +382,10 @@ public class MainMenu extends AppCompatActivity {
         startTurn();
     }
 
+    // Game II function
+    // gets game high score and starts cpu turn
     public void GameTwo() {
-        // opens game I high score file
-        readHighScore();
-        TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
-        scoreTV.setText(Integer.toString(playerScore));
-        scoreTV.setVisibility(View.VISIBLE);
-        TextView highScoreTV = (TextView) findViewById(R.id.textView_HighScore);
-        highScoreTV.setText(Integer.toString(highScore));
-        highScoreTV.setVisibility(View.VISIBLE);
-        startTurn();
-    }
-    public void GameThree() {
-        // opens game I high score file
-        readHighScore();
+        readHighScore(gameMode);
         TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
         scoreTV.setText(Integer.toString(playerScore));
         scoreTV.setVisibility(View.VISIBLE);
@@ -400,8 +395,21 @@ public class MainMenu extends AppCompatActivity {
         startTurn();
     }
 
-    // checks if button pressed is correct
+    // Game III function
+    // gets game high score and starts cpu turn
+    public void GameThree() {
+        readHighScore(gameMode);
+        TextView scoreTV = (TextView) findViewById(R.id.textView_CurrentScore);
+        scoreTV.setText(Integer.toString(playerScore));
+        scoreTV.setVisibility(View.VISIBLE);
+        TextView highScoreTV = (TextView) findViewById(R.id.textView_HighScore);
+        highScoreTV.setText(Integer.toString(highScore));
+        highScoreTV.setVisibility(View.VISIBLE);
+        startTurn();
+    }
+
     public void checkStatus() {
+        // checks if button pressed is correct in game mode I
         if (gameMode == 1) {
             if (player.get(it) == cpu.get(it)) {
                 it++;
@@ -423,6 +431,7 @@ public class MainMenu extends AppCompatActivity {
             }
         }
         if (gameMode == 2) {
+            // checks if button pressed is correct in game mode II
             if (player.get(it) == cpu.get(it)) {
                 it++;
             } else {
@@ -442,6 +451,7 @@ public class MainMenu extends AppCompatActivity {
             }
         }
         if (gameMode == 3) {
+            // checks if button pressed is correct in game mode III
             if (player.get(it) == cpu.get(it)) {
                 it++;
             } else {
@@ -527,9 +537,9 @@ public class MainMenu extends AppCompatActivity {
     // if incorrect button is pressed
     // plays end game sound and returns to main menu
     public void endGame () {
-        // if player has the high score, writes new high score to file
+        // if player has the high score, writes new high score to file, and resets all arrays, textviews and scores
         if (playerScore > highScore) {
-            writeHighScore();
+            writeHighScore(gameMode);
         }
         if (soundsLoaded.contains(end_sound)) {
             soundPool.play(end_sound, 1.0f, 1.0f, 0, 0, 1.0f);
@@ -550,31 +560,85 @@ public class MainMenu extends AppCompatActivity {
     }
 
     // writes high score to file
-    private void writeHighScore() {
-        try {
-            FileOutputStream fos = openFileOutput("gameI.txt", Context.MODE_PRIVATE);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            BufferedWriter bw = new BufferedWriter(osw);
-            PrintWriter pw = new PrintWriter(bw);
-            pw.println(playerScore);
-            pw.close();
-        } catch (FileNotFoundException e) {
-            // Logs an error message, prints the StackTrace and shows the user an error message if the data file cannot be found
-            Log.e("WRITE_ERR", "Cannot dave data: " + e.getMessage());
-            e.printStackTrace();
+    private void writeHighScore(int gm) {
+        if (gm == 1) {
+            try {
+                FileOutputStream fos = openFileOutput("gameI.txt", Context.MODE_PRIVATE);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                BufferedWriter bw = new BufferedWriter(osw);
+                PrintWriter pw = new PrintWriter(bw);
+                pw.println(playerScore);
+                pw.close();
+            } catch (FileNotFoundException e) {
+                // Logs an error message, prints the StackTrace and shows the user an error message if the data file cannot be found
+                Log.e("WRITE_ERR", "Cannot dave data: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        if (gm == 2) {
+            try {
+                FileOutputStream fos = openFileOutput("gameII.txt", Context.MODE_PRIVATE);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                BufferedWriter bw = new BufferedWriter(osw);
+                PrintWriter pw = new PrintWriter(bw);
+                pw.println(playerScore);
+                pw.close();
+            } catch (FileNotFoundException e) {
+                // Logs an error message, prints the StackTrace and shows the user an error message if the data file cannot be found
+                Log.e("WRITE_ERR", "Cannot dave data: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        if (gm == 3) {
+            try {
+                FileOutputStream fos = openFileOutput("gameIII.txt", Context.MODE_PRIVATE);
+                OutputStreamWriter osw = new OutputStreamWriter(fos);
+                BufferedWriter bw = new BufferedWriter(osw);
+                PrintWriter pw = new PrintWriter(bw);
+                pw.println(playerScore);
+                pw.close();
+            } catch (FileNotFoundException e) {
+                // Logs an error message, prints the StackTrace and shows the user an error message if the data file cannot be found
+                Log.e("WRITE_ERR", "Cannot dave data: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
     // reads high score from file
-    private void readHighScore() {
-        try {
-            FileInputStream fis = openFileInput("gameI.txt");
-            Scanner scanner = new Scanner(fis);
-            String scoreIn = scanner.nextLine();
-            highScore = Integer.parseInt(scoreIn);
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    private void readHighScore(int gm) {
+        if (gm == 1) {
+            try {
+                FileInputStream fis = openFileInput("gameI.txt");
+                Scanner scanner = new Scanner(fis);
+                String scoreIn = scanner.nextLine();
+                highScore = Integer.parseInt(scoreIn);
+                scanner.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (gm == 2) {
+            try {
+                FileInputStream fis = openFileInput("gameII.txt");
+                Scanner scanner = new Scanner(fis);
+                String scoreIn = scanner.nextLine();
+                highScore = Integer.parseInt(scoreIn);
+                scanner.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (gm == 3) {
+            try {
+                FileInputStream fis = openFileInput("gameIII.txt");
+                Scanner scanner = new Scanner(fis);
+                String scoreIn = scanner.nextLine();
+                highScore = Integer.parseInt(scoreIn);
+                scanner.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -586,7 +650,11 @@ public class MainMenu extends AppCompatActivity {
             // sets time between cpu buttons
             // as rounds increase, the speed increases
             int timer = 1000;
-            int round = cpu.size()/4;
+            int div = 4;
+            if (gameMode == 3){
+                div = 6;
+            }
+            int round = cpu.size()/div;
             switch (round) {
                 case 0: timer = 1000;
                     break;
