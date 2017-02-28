@@ -347,7 +347,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             if ( sg != null && sg.getStatus() == AsyncTask.Status.RUNNING) {
                 sg.cancel(true);
             }
-            return false;
         }
         return super.onKeyDown(keyCode, event);
     }
